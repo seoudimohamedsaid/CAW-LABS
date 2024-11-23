@@ -1,0 +1,158 @@
+// DisplayTab Component - Step 1
+function DisplayTab({ table }) {
+    return (
+        <ul>
+            {table.map((item, index) => (
+                <li key={index}>{item}</li>
+            ))}
+        </ul>
+    );
+}
+
+// DisplayTab Component - Step 2
+function DisplayTabNumbered({ table }) {
+    return (
+        <ul>
+            {table.map((item, index) => (
+                <li key={index}>Element {index + 1} is: {item}</li>
+            ))}
+        </ul>
+    );
+}
+
+// DisplayTab Component - Step 3
+function DisplayTabWithClick({ table, setTable }) {
+    const handleClick = (index) => {
+        const newTable = table.filter((_, i) => i !== index);
+        setTable(newTable);
+    };
+
+    return (
+        <ul>
+            {table.map((item, index) => (
+                <li key={index} onClick={() => handleClick(index)}>
+                    Element {index + 1} is: {item}
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+// App Component - Step 5
+function App() {
+    const [table1, setTable1] = React.useState(["hello", "world", "from", "React"]);
+    const [table2, setTable2] = React.useState(["JavaScript", "is", "fun"]);
+
+    return (
+        <div>
+            <DisplayTabWithClick table={table1} setTable={setTable1} />
+            <DisplayTabWithClick table={table2} setTable={setTable2} />
+        </div>
+    );
+}
+
+// Exercise 3 - Authentication Form Component
+function AuthenticationForm() {
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [users, setUsers] = React.useState([]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (username.trim() && password.trim()) {
+            setUsers([...users, username]);
+            setUsername("");
+            setPassword("");
+        }
+    };
+
+    const handleDelete = (index) => {
+        const newUsers = users.filter((_, i) => i !== index);
+        setUsers(newUsers);
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="submit">Submit</button>
+            </form>
+            <ul>
+                {users.map((user, index) => (
+                    <li key={index}>
+                        {user}
+                        <button onClick={() => handleDelete(index)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+// Exercise 4 - Dynamic Div Creator
+function DivCreator() {
+    const [divs, setDivs] = React.useState([]);
+    const [width, setWidth] = React.useState("");
+    const [height, setHeight] = React.useState("");
+    const [backgroundColor, setBackgroundColor] = React.useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (width && height && backgroundColor) {
+            setDivs([...divs, { width, height, backgroundColor }]);
+            setWidth("");
+            setHeight("");
+            setBackgroundColor("");
+        }
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Width (px)"
+                    value={width}
+                    onChange={(e) => setWidth(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Height (px)"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Background Color"
+                    value={backgroundColor}
+                    onChange={(e) => setBackgroundColor(e.target.value)}
+                />
+                <button type="submit">Add Div</button>
+            </form>
+            <div>
+                {divs.map((div, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            width: `${div.width}px`,
+                            height: `${div.height}px`,
+                            backgroundColor: div.backgroundColor,
+                            margin: "10px",
+                        }}
+                    ></div>
+                ))}
+            </div>
+        </div>
+    );
+}
